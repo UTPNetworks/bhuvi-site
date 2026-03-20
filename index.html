@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bhuvi | First-impression site</title>
+  <meta name="description" content="An investor- and family-friendly version of Bhuvi's landing page: clean promise, interactive modules, and a tangible audit trail." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Space+Grotesk:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg0:#070A08;
+      --bg1:#0C1511;
+      --card: rgba(255,255,255,.03);
+      --stroke: rgba(255,255,255,.10);
+      --stroke2: rgba(79,241,199,.35);
+      --text:#EAF5F1;
+      --muted:#BBD1CA;
+      --muted2:#95A8A1;
+      --accent:#4FF1C7;
+      --accent2:#74A7FF;
+      --shadow: 0 20px 60px rgba(0,0,0,.40);
+    }
+
+    html, body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 600px at 14% 0%, rgba(79,241,199,.14), transparent 60%),
+        radial-gradient(900px 650px at 86% 22%, rgba(116,167,255,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      overflow-x:hidden;
+    }
+
+    .container{max-width:1120px; margin:0 auto; padding: 24px 22px 60px;}
+
+    #topbar{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;}
+    .brand{display:flex; gap:10px; align-items:center; text-decoration:none; color:inherit;}
+    .mark{width:40px;height:40px;border-radius:13px; background:linear-gradient(135deg, rgba(79,241,199,.95), rgba(116,167,255,.95)); box-shadow: 0 12px 30px rgba(79,241,199,.15);} 
+    .brand strong{font-family:'Space Grotesk'; letter-spacing:-0.03em; font-size:18px;}
+    .brand span{display:block; font-size:12px; color:var(--muted2)}
+
+    nav{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+    nav a{color: var(--muted); text-decoration:none; padding: 10px 10px; border-radius:999px; border:1px solid transparent; font-weight:600; font-size:13px;}
+    nav a:hover{border-color: var(--stroke); background: rgba(255,255,255,.03); color: var(--text);}
+
+    .btn{border:none; border-radius:999px; padding:11px 13px; cursor:pointer; font-weight:800; display:inline-flex; align-items:center; gap:8px; box-shadow: 0 16px 40px rgba(0,0,0,.20);} 
+    .btn.primary{background: linear-gradient(135deg, rgba(79,241,199,1), rgba(116,167,255,1)); color:#03140A; box-shadow: 0 18px 50px rgba(79,241,199,.14);} 
+    .btn.secondary{background: rgba(255,255,255,.03); border: 1px solid var(--stroke); color: var(--text); box-shadow: none;}
+    .btn.secondary:hover{border-color: var(--stroke2);}
+
+    .hero{margin-top: 18px; padding: 42px 32px; border-radius: 28px; border:1px solid var(--stroke); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.08)); box-shadow: var(--shadow)}
+    .kicker{display:inline-flex; gap:10px; align-items:center; color: var(--muted2); font-weight:800; font-size:12px; letter-spacing:.16em; text-transform:uppercase; margin-bottom:12px;}
+    .pill{padding:6px 10px; border-radius:999px; border:1px solid var(--stroke); background: rgba(255,255,255,.03); color: var(--muted2); font-weight:800;}
+    h1{margin:0; font-family:'Space Grotesk'; font-size: clamp(32px, 4.1vw, 60px); letter-spacing:-0.04em; line-height:1.05;}
+    h1 em{background: linear-gradient(135deg, rgba(79,241,199,1), rgba(255,207,91,1), rgba(116,167,255,1)); -webkit-background-clip:text; background-clip:text; color:transparent; font-style:normal;}
+    .hero p{margin: 14px 0 22px; color: var(--muted); line-height:1.6; max-width: 64ch; font-size:16px;}
+
+    .hero-grid{display:grid; grid-template-columns: 1.1fr .9fr; gap: 24px; margin-top: 24px; align-items:start;}
+    .panel{border-radius: 22px; border: 1px solid var(--stroke); background: rgba(0,0,0,.12); padding: 18px;}
+    .stats{display:flex; gap:10px; flex-wrap:wrap;}
+    .stat{padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); min-width: 120px;} 
+    .stat b{font-family:'Space Grotesk'; font-size:18px; letter-spacing:-0.02em; display:block;}
+    .stat span{color: var(--muted2); font-size:12px;}
+
+    .audit-item{display:flex; gap:10px; align-items:flex-start; padding: 12px; border-radius: 16px; border:1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.02); margin-top:12px;}
+    .dot{width:10px;height:10px;border-radius:999px; background: var(--accent); margin-top:5px; box-shadow: 0 0 0 6px rgba(79,241,199,.08);} 
+    .audit-item h4{margin:0;font-size:13px}
+    .audit-item p{margin:3px 0 0; color: var(--muted2); font-size:12px; line-height:1.45}
+
+    .section{margin-top: 34px;}
+    .section h2{margin:0; font-family:'Space Grotesk'; letter-spacing:-0.03em; font-size: clamp(24px, 2.6vw, 38px);}
+    .section p.lead{margin: 8px 0 16px; color: var(--muted); line-height:1.65; max-width: 76ch;}
+
+    .split{display:grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items:start;}
+
+    .module-list{display:grid; grid-template-columns: 1fr; gap: 12px; margin-top: 14px;}
+    .card{border-radius: 20px; border:1px solid var(--stroke); background: rgba(0,0,0,.12); padding:16px; box-shadow: 0 16px 50px rgba(0,0,0,.22);} 
+    .mod{padding:14px; border-radius: 16px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.02); cursor:pointer; display:flex; align-items:flex-start; gap:10px;} 
+    .mod:hover{border-color: var(--stroke2);} 
+    .mod.active{border-color: rgba(79,241,199,.85); background: rgba(79,241,199,.08);} 
+    .icon{width:38px;height:38px;border-radius: 14px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.03); display:grid; place-items:center;} 
+    .mod h3{margin:0;font-size:15px; letter-spacing:-0.01em;} 
+    .mod p{margin:4px 0 0; color: var(--muted2); font-size:13px; line-height:1.35}
+
+    .detail h3{margin:0; font-family:'Space Grotesk'; font-size:22px; letter-spacing:-0.03em;}
+    .detail p{margin: 8px 0 14px; color: var(--muted); line-height:1.6}
+    .detail ul{margin:0;padding-left:18px; color: var(--muted2); line-height:1.6; font-size:13px;}
+
+    .timeline{margin-top: 12px;}
+    .timeline li{color: var(--muted2); margin: 10px 0; line-height:1.5; list-style: none; padding-left: 16px; position: relative; font-size:13px;}
+    .timeline li:before{content:""; position:absolute; left:0; top:9px; width:8px;height:8px;border-radius:999px; background: var(--accent2); box-shadow: 0 0 0 6px rgba(116,167,255,.10);} 
+
+    footer{margin-top: 36px; color: var(--muted2); font-size:13px; display:flex; gap:10px; justify-content:space-between; flex-wrap:wrap;}
+
+    @media (max-width: 920px){
+      .hero-grid{grid-template-columns: 1fr;}
+      .split{grid-template-columns: 1fr;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header id="topbar">
+      <a class="brand" href="#" aria-label="Bhuvi">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <strong>Bhuvi</strong>
+          <span>Land. Verified.</span>
+        </div>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#platform">Platform</a>
+        <a href="#workflow">Audit trail</a>
+        <a href="#waitlist">Waitlist</a>
+        <button class="btn primary" id="topCta" type="button">Request access</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-label="Hero">
+        <div class="kicker"><span class="pill">Interactive</span> Build trust quickly</div>
+        <h1>Protect land like a business <em>from anywhere</em>.</h1>
+        <p>We turned “someone watching” into “evidence you can share.” Pick a module and watch the story become audit-ready.</p>
+
+        <div class="hero-grid">
+          <div class="panel">
+            <div class="stats" aria-label="Stats">
+              <div class="stat"><b>26+</b><span>data checks</span></div>
+              <div class="stat"><b>32M</b><span>NRIs</span></div>
+              <div class="stat"><b>$250B</b><span>assets</span></div>
+            </div>
+
+            <div class="audit-item" aria-label="Audit preview">
+              <div class="dot" aria-hidden="true"></div>
+              <div>
+                <h4>Baseline established</h4>
+                <p>Docs, boundaries, ownership, and a single shared anchor.</p>
+              </div>
+            </div>
+            <div class="audit-item">
+              <div class="dot" aria-hidden="true" style="background: var(--accent2); box-shadow:0 0 0 6px rgba(116,167,255,.10);"></div>
+              <div>
+                <h4>Monitoring stack active</h4>
+                <p>Satellite + on-ground signals → anomaly cards with owners.</p>
+              </div>
+            </div>
+            <div class="audit-item">
+              <div class="dot" aria-hidden="true" style="background: rgba(255,207,91,1); box-shadow:0 0 0 6px rgba(255,207,91,.12);"></div>
+              <div>
+                <h4>Quarterly report generated</h4>
+                <p>Health score + next actions + proof links.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3 style="margin:0; font-family:'Space Grotesk'; letter-spacing:-0.03em;">First impression copy</h3>
+            <p style="margin:10px 0 0; color:var(--muted); line-height:1.6">“Bhuvi monitors India property with satellites, on-ground stewards, and legal audit cards—so anyone can trust the story.”</p>
+            <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn secondary" id="copyPitch" type="button">Copy 1-line pitch</button>
+              <button class="btn secondary" id="scrollToPlatform" type="button">Explore modules</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="platform" class="section" aria-label="Platform modules">
+        <div class="split">
+          <div class="card">
+            <h2>Platform</h2>
+            <p class="lead">Select a module to see what it does. This is how we turn “curious visitor” into “engaged user.”</p>
+
+            <div class="module-list" role="tablist">
+              <div class="mod active" role="tab" tabindex="0" aria-selected="true" data-module="anchor">
+                <div class="icon" aria-hidden="true">🧭</div>
+                <div>
+                  <h3>Spatial Anchor</h3>
+                  <p>Everyone points to the same “home” and logs evidence against it.</p>
+                </div>
+              </div>
+              <div class="mod" role="tab" tabindex="0" aria-selected="false" data-module="protect">
+                <div class="icon" aria-hidden="true">🛡️</div>
+                <div>
+                  <h3>Protection workflow</h3>
+                  <p>Anomalies become cards with owners, not panic.</p>
+                </div>
+              </div>
+              <div class="mod" role="tab" tabindex="0" aria-selected="false" data-module="legal">
+                <div class="icon" aria-hidden="true">📜</div>
+                <div>
+                  <h3>Legal coverage</h3>
+                  <p>Standing, documents, and disputes tracked as a structured workstream.</p>
+                </div>
+              </div>
+              <div class="mod" role="tab" tabindex="0" aria-selected="false" data-module="report">
+                <div class="icon" aria-hidden="true">📈</div>
+                <div>
+                  <h3>Quarterly report</h3>
+                  <p>A single shareable artifact that investors and families both respect.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card detail" aria-live="polite" aria-atomic="true">
+            <h3 id="detailTitle">Spatial Anchor</h3>
+            <p id="detailDesc">Where the story starts: baseline coordinates + documents, with every update logged as evidence.</p>
+            <ul id="detailBullets">
+              <li>One anchor for boundaries and documents</li>
+              <li>Shared view for family + partners + investors</li>
+              <li>Exceptions become traceable events</li>
+            </ul>
+
+            <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn primary" id="addAuditEvent" type="button">Add audit event</button>
+              <a class="btn secondary" href="#workflow" style="text-decoration:none">See timeline</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workflow" class="section" aria-label="Audit workflow">
+        <h2>Audit trail</h2>
+        <p class="lead">This is the startup magic: you don’t just claim “trust.” You surface it.</p>
+
+        <div class="split">
+          <div class="card">
+            <h3 style="margin-top:0">Timeline</h3>
+            <ul class="timeline" id="timeline">
+              <li>Day 0 — Baseline established</li>
+              <li>Day 7 — Satellite check recorded</li>
+              <li>Day 30 — Steward visit report signed</li>
+            </ul>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+              <button class="btn primary" id="resetTimeline" type="button">Reset</button>
+              <button class="btn secondary" id="simulateTimeline" type="button">Simulate</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-top:0">Why visitors care</h3>
+            <p style="margin:0 0 10px; color:var(--muted); line-height:1.65">Investors get a system. Families get peace. Partners get discipline. This page is designed to make that obvious immediately.</p>
+            <ul style="margin:0; padding-left:16px; color:var(--muted2); line-height:1.65; font-size:13px;">
+              <li>Proof-first storytelling</li>
+              <li>Consistency across channels</li>
+              <li>Clear owners + clear outcomes</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="waitlist" class="section" aria-label="Waitlist">
+        <div class="split">
+          <div class="card">
+            <h2>Join waitlist</h2>
+            <p class="lead">We’ll turn this demo into production once you confirm the final stack. For now, it’s a smooth experience designed to impress anyone in the first visit.</p>
+
+            <form id="waitlistForm" style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+              <label for="email" style="display:none">Email</label>
+              <input id="email" type="email" name="email" placeholder="Email (optional)" autocomplete="email" style="flex:1 1 260px; border-radius:999px; border:1px solid var(--stroke); background: rgba(0,0,0,.14); padding: 12px; color: var(--text); outline:none;" />
+              <button class="btn primary" type="submit">Request access</button>
+            </form>
+            <p style="margin:10px 0 0; color:var(--muted2); font-size:13px">Demo only: we save locally until backend endpoint is enabled.</p>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-top:0">One scroll onboarding</h3>
+            <p style="margin:0; color:var(--muted); line-height:1.7">This site is built like a VC meeting: promise → proof → pipeline. Your first impression is not just visual; it’s interactive intent.</p>
+            <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn secondary" id="scrollBackTop" type="button">Back to top</button>
+              <button class="btn secondary" id="flushLocal" type="button">Clear demo local data</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="year"></span> Bhuvi</div>
+      <div>Creative director pass: v1</div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function setModule(key){
+      document.querySelectorAll('[data-module]').forEach(card => {
+        const active = card.dataset.module === key;
+        card.classList.toggle('active', active);
+        card.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+
+      const modules = {
+        anchor: {
+          title: 'Spatial Anchor',
+          desc: 'Where the story starts: baseline coordinates + documents, with every update logged as evidence.',
+          bullets: [
+            'One anchor for boundaries and documents',
+            'Shared view for family + partners + investors',
+            'Exceptions become traceable events'
+          ]
+        },
+        protect: {
+          title: 'Protection workflow',
+          desc: 'Anomalies become cards with owners. Accountability turns problems into process.',
+          bullets: [
+            'Satellite + on-ground checks with owner fields',
+            'Clear escalation paths; no channel leaks',
+            'The timeline becomes your meeting deck'
+          ]
+        },
+        legal: {
+          title: 'Legal coverage',
+          desc: 'Standing and documentation tracked like a project so you don’t discover issues in a crisis.',
+          bullets: [
+            'Dependencies surfaced early (expirations, filings)',
+            'Owner + timestamp for every step',
+            'Trust you can show, not just claim'
+          ]
+        },
+        report: {
+          title: 'Quarterly report',
+          desc: 'A single shareable artifact—health score, top insight, next action, and proof links.',
+          bullets: [
+            'Investor-friendly structure, family-friendly language',
+            'Proof card links to every section',
+            'Designed to “forward” well'
+          ]
+        }
+      };
+
+      const mod = modules[key];
+      document.getElementById('detailTitle').textContent = mod.title;
+      document.getElementById('detailDesc').textContent = mod.desc;
+      document.getElementById('detailBullets').innerHTML = mod.bullets.map(b => `<li>${b}</li>`).join('');
+    }
+
+    document.querySelectorAll('[data-module]').forEach(card => {
+      card.addEventListener('click', () => setModule(card.dataset.module));
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+
+    // Timeline demo
+    const timeline = document.getElementById('timeline');
+    document.getElementById('resetTimeline').addEventListener('click', () => {
+      timeline.innerHTML = `
+        <li>Day 0 — Baseline established</li>
+        <li>Day 7 — Satellite check recorded</li>
+        <li>Day 30 — Steward visit report signed</li>
+      `;
+    });
+
+    document.getElementById('simulateTimeline').addEventListener('click', () => {
+      const events = [
+        'Day 45 — Drone sweep verified',
+        'Day 52 — Anomaly alert resolved',
+        'Day 60 — Legal checklist updated',
+        'Day 75 — Provider invoice matched to deliverable'
+      ];
+      const li = document.createElement('li');
+      li.textContent = events[Math.floor(Math.random()*events.length)];
+      timeline.appendChild(li);
+      li.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    });
+
+    document.getElementById('addAuditEvent').addEventListener('click', () => {
+      const li = document.createElement('li');
+      li.textContent = 'New audit card — owner assigned + timestamped';
+      timeline.appendChild(li);
+      timeline.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // Copy pitch
+    document.getElementById('copyPitch').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('Bhuvi monitors India property with satellites, stewards, and legal audit cards—so anyone can trust the story.');
+        const btn = document.getElementById('copyPitch');
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy 1-line pitch', 1400);
+      } catch {
+        alert('Clipboard permission blocked.');
+      }
+    });
+
+    // Scroll helpers
+    document.getElementById('scrollToPlatform').addEventListener('click', () => document.getElementById('platform').scrollIntoView({ behavior:'smooth'}));
+    document.getElementById('scrollBackTop').addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth'}));
+
+    // Demo waitlist storage
+    const emailInput = document.getElementById('email');
+    try {
+      const stored = localStorage.getItem('bhuvi_waitlist_email');
+      if (stored) emailInput.value = stored;
+    } catch {}
+
+    document.getElementById('waitlistForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (emailInput.value) {
+        try { localStorage.setItem('bhuvi_waitlist_email', emailInput.value); } catch {}
+        alert('Demo: saved locally. Backend signup endpoint to be added.');
+      } else {
+        alert('Demo: email optional.');
+      }
+    });
+
+    document.getElementById('flushLocal').addEventListener('click', () => {
+      try { localStorage.removeItem('bhuvi_waitlist_email'); } catch {}
+      emailInput.value = '';
+      alert('Demo data cleared.');
+    });
+
+    // Top CTA scroll to waitlist
+    document.getElementById('topCta').addEventListener('click', () => document.getElementById('waitlist').scrollIntoView({ behavior:'smooth'}));
+
+    // Default module
+    setModule('anchor');
+  </script>
+</body>
+</html>
