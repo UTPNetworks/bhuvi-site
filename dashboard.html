@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bhuvi — My Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0E1C0C;
+      --bg1:      #131F10;
+      --bg2:      #192815;
+      --bg3:      #1F3219;
+      --sidebar:  #0B1709;
+      --green1:   #2A521E;
+      --green2:   #3D7035;
+      --green3:   #52943F;
+      --green4:   #6BB857;
+      --green5:   #8FD478;
+      --bronze1:  #8B5E2A;
+      --bronze2:  #B87D3C;
+      --bronze3:  #D4974E;
+      --bronze4:  #E8B870;
+      --cream:    #F0E8D0;
+      --cream2:   #C8BCA8;
+      --cream3:   #8A8070;
+      --cream4:   #504840;
+      --red:      #E05050;
+      --red-bg:   rgba(224,80,80,.10);
+      --amber:    #E8A030;
+      --amber-bg: rgba(232,160,48,.10);
+      --white:    #FDFAF4;
+      --stroke:   rgba(255,255,255,.07);
+      --stroke2:  rgba(255,255,255,.12);
+      --glow-g:   rgba(107,184,87,.12);
+      --glow-b:   rgba(184,125,60,.10);
+      --r: 16px; --r2: 10px; --r3: 24px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; }
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 240px; flex-shrink: 0;
+      background: var(--sidebar);
+      border-right: 1px solid var(--stroke);
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0;
+      z-index: 200;
+    }
+    .sb-logo {
+      padding: 22px 20px 18px;
+      border-bottom: 1px solid var(--stroke);
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .sb-mark {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--green1), var(--bronze1));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--white);
+    }
+    .sb-name strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .04em; color: var(--cream); }
+    .sb-name span { font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--bronze3); }
+
+    .sb-section-label {
+      font-size: 9px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--cream4); padding: 18px 20px 6px;
+    }
+    .sb-nav { flex: 1; padding: 6px 10px; overflow-y: auto; }
+    .sb-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: var(--r2);
+      text-decoration: none; color: var(--cream3); font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: background .18s, color .18s;
+      margin-bottom: 2px; position: relative;
+    }
+    .sb-item:hover { background: rgba(255,255,255,.05); color: var(--cream); }
+    .sb-item.active { background: rgba(107,184,87,.12); color: var(--green4); }
+    .sb-item.active::before {
+      content: ''; position: absolute; left: 0; top: 6px; bottom: 6px;
+      width: 3px; border-radius: 0 2px 2px 0;
+      background: var(--green4);
+    }
+    .sb-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+    .sb-badge {
+      margin-left: auto; background: var(--red); color: #fff;
+      font-size: 10px; font-weight: 800;
+      width: 18px; height: 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .sb-user {
+      border-top: 1px solid var(--stroke);
+      padding: 14px 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sb-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green1), var(--bronze1));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; color: var(--white); flex-shrink: 0;
+    }
+    .sb-user-info strong { display: block; font-size: 13px; font-weight: 700; color: var(--cream); }
+    .sb-user-info span { font-size: 11px; color: var(--cream3); }
+    .sb-logout {
+      margin-left: auto; font-size: 16px; opacity: .4; cursor: pointer;
+      transition: opacity .2s;
+    }
+    .sb-logout:hover { opacity: .8; }
+
+    /* ===== MAIN ===== */
+    .main {
+      margin-left: 240px; flex: 1;
+      display: flex; flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      height: 60px;
+      background: rgba(14,28,12,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--stroke);
+      display: flex; align-items: center; gap: 14px;
+      padding: 0 28px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .topbar-search {
+      flex: 1; max-width: 340px;
+      background: var(--bg2); border: 1px solid var(--stroke);
+      border-radius: 999px; padding: 8px 16px;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--cream3);
+      cursor: text;
+    }
+    .topbar-search input {
+      background: none; border: none; outline: none;
+      font-size: 13px; color: var(--cream);
+      font-family: 'Inter', sans-serif; flex: 1;
+    }
+    .topbar-search input::placeholder { color: var(--cream4); }
+    .topbar-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+    .icon-btn {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--bg2); border: 1px solid var(--stroke);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; cursor: pointer; position: relative;
+      transition: background .2s;
+    }
+    .icon-btn:hover { background: var(--bg3); }
+    .notif-dot {
+      position: absolute; top: 5px; right: 5px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--red); border: 2px solid var(--bg);
+    }
+    .topbar-date { font-size: 12px; color: var(--cream3); font-weight: 500; }
+
+    /* ===== CONTENT ===== */
+    .content { padding: 28px; flex: 1; }
+
+    /* Welcome row */
+    .welcome-row {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 16px; margin-bottom: 28px; flex-wrap: wrap;
+    }
+    .welcome-text h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px; font-weight: 700; line-height: 1.1;
+      letter-spacing: -.02em; color: var(--white);
+    }
+    .welcome-text p { font-size: 14px; color: var(--cream3); margin-top: 4px; }
+    .welcome-actions { display: flex; gap: 10px; align-items: center; }
+    .btn-add {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: linear-gradient(135deg, var(--green1), var(--green2));
+      color: var(--white); font-size: 13px; font-weight: 700;
+      padding: 9px 18px; border-radius: 999px; border: none; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(61,112,53,.25); transition: all .2s;
+    }
+    .btn-add:hover { box-shadow: 0 6px 24px rgba(61,112,53,.35); transform: translateY(-1px); }
+    .btn-report {
+      background: rgba(255,255,255,.05); border: 1px solid var(--stroke2);
+      color: var(--cream2); font-size: 13px; font-weight: 600;
+      padding: 9px 18px; border-radius: 999px; cursor: pointer; transition: all .2s;
+    }
+    .btn-report:hover { background: rgba(255,255,255,.09); }
+
+    /* ===== KPI STRIP ===== */
+    .kpi-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 14px; margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--bg2);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
+      padding: 18px 20px;
+      position: relative; overflow: hidden;
+      transition: border-color .25s;
+    }
+    .kpi-card:hover { border-color: var(--stroke2); }
+    .kpi-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    }
+    .kpi-card.green::before { background: linear-gradient(90deg, var(--green3), transparent); }
+    .kpi-card.bronze::before { background: linear-gradient(90deg, var(--bronze2), transparent); }
+    .kpi-card.red::before { background: linear-gradient(90deg, var(--red), transparent); }
+    .kpi-card.amber::before { background: linear-gradient(90deg, var(--amber), transparent); }
+    .kpi-icon { font-size: 22px; margin-bottom: 10px; display: block; }
+    .kpi-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px; font-weight: 700; color: var(--white);
+      display: block; line-height: 1;
+    }
+    .kpi-label { font-size: 11px; font-weight: 600; color: var(--cream3); margin-top: 5px; letter-spacing: .06em; text-transform: uppercase; }
+    .kpi-delta {
+      position: absolute; top: 18px; right: 16px;
+      font-size: 11px; font-weight: 700; padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .kpi-delta.up { background: rgba(107,184,87,.12); color: var(--green4); }
+    .kpi-delta.warn { background: var(--amber-bg); color: var(--amber); }
+    .kpi-delta.alert { background: var(--red-bg); color: var(--red); }
+
+    /* ===== MID GRID: map + alerts ===== */
+    .mid-grid {
+      display: grid; grid-template-columns: 1.5fr 1fr;
+      gap: 14px; margin-bottom: 24px;
+    }
+
+    /* Map panel */
+    .map-panel {
+      background: var(--bg2);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r3);
+      overflow: hidden; position: relative;
+    }
+    .map-panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; border-bottom: 1px solid var(--stroke);
+    }
+    .map-panel-title { font-size: 14px; font-weight: 700; color: var(--cream); display: flex; align-items: center; gap: 8px; }
+    .live-badge {
+      font-size: 9px; font-weight: 800; letter-spacing: .10em; text-transform: uppercase;
+      color: var(--green4); background: rgba(107,184,87,.12);
+      border: 1px solid rgba(107,184,87,.22);
+      padding: 3px 8px; border-radius: 999px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green4); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+    .map-area {
+      height: 280px;
+      background: linear-gradient(160deg, #0E2010 0%, #142A10 50%, #0A1C08 100%);
+      position: relative; overflow: hidden;
+    }
+    .map-area svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    /* Scan line */
+    .map-scan {
+      position: absolute; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--green4) 40%, var(--bronze3) 60%, transparent 95%);
+      opacity: .5; animation: mapscan 6s linear infinite;
+    }
+    @keyframes mapscan { 0%{top:0%;opacity:0} 5%{opacity:.6} 90%{opacity:.4} 100%{top:100%;opacity:0} }
+
+    /* Property pins */
+    .map-pin {
+      position: absolute;
+      width: 14px; height: 14px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      box-shadow: 0 0 0 4px rgba(212,151,78,.2);
+      animation: pin-pulse 2.5s ease-in-out infinite;
+      cursor: pointer;
+    }
+    @keyframes pin-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(212,151,78,.5)} 50%{box-shadow:0 0 0 10px rgba(212,151,78,0)} }
+    .map-pin.green { background: var(--green3); box-shadow: 0 0 0 4px rgba(82,148,63,.2); animation-name: pin-pulse-green; }
+    @keyframes pin-pulse-green { 0%,100%{box-shadow:0 0 0 0 rgba(82,148,63,.5)} 50%{box-shadow:0 0 0 10px rgba(82,148,63,0)} }
+    .map-pin.red { background: var(--red); box-shadow: 0 0 0 4px rgba(224,80,80,.2); animation-name: pin-pulse-red; }
+    @keyframes pin-pulse-red { 0%,100%{box-shadow:0 0 0 0 rgba(224,80,80,.5)} 50%{box-shadow:0 0 0 10px rgba(224,80,80,0)} }
+
+    .pin-tooltip {
+      position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+      background: rgba(10,26,8,.9); border: 1px solid var(--stroke2);
+      border-radius: 8px; padding: 6px 10px;
+      font-size: 11px; white-space: nowrap; color: var(--cream);
+      pointer-events: none; opacity: 0; transition: opacity .2s;
+    }
+    .map-pin:hover .pin-tooltip { opacity: 1; }
+    .map-pin { transform: rotate(-45deg); }
+    .map-pin > * { transform: rotate(45deg); }
+
+    .map-legend {
+      display: flex; gap: 16px; padding: 12px 20px;
+      border-top: 1px solid var(--stroke);
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--cream3); font-weight: 600; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* Alerts panel */
+    .alerts-panel {
+      background: var(--bg2);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r3); overflow: hidden;
+    }
+    .panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; border-bottom: 1px solid var(--stroke);
+    }
+    .panel-title { font-size: 14px; font-weight: 700; color: var(--cream); }
+    .panel-count {
+      background: var(--red-bg); color: var(--red);
+      font-size: 11px; font-weight: 800;
+      padding: 3px 9px; border-radius: 999px;
+      border: 1px solid rgba(224,80,80,.2);
+    }
+    .alert-list { padding: 6px 0; max-height: 340px; overflow-y: auto; }
+    .alert-item {
+      padding: 12px 20px; border-bottom: 1px solid var(--stroke);
+      cursor: pointer; transition: background .15s;
+    }
+    .alert-item:last-child { border-bottom: none; }
+    .alert-item:hover { background: rgba(255,255,255,.03); }
+    .alert-row { display: flex; align-items: flex-start; gap: 10px; }
+    .alert-sev {
+      width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 13px;
+    }
+    .alert-sev.high { background: var(--red-bg); }
+    .alert-sev.med  { background: var(--amber-bg); }
+    .alert-sev.low  { background: rgba(107,184,87,.10); }
+    .alert-body { flex: 1; }
+    .alert-title-text { font-size: 13px; font-weight: 700; color: var(--cream); margin-bottom: 2px; }
+    .alert-meta { font-size: 11px; color: var(--cream3); }
+    .alert-tag {
+      font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+      margin-left: auto; flex-shrink: 0; align-self: flex-start; margin-top: 2px;
+      letter-spacing: .04em;
+    }
+    .alert-tag.open { background: var(--red-bg); color: var(--red); border: 1px solid rgba(224,80,80,.2); }
+    .alert-tag.review { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(232,160,48,.2); }
+    .alert-tag.resolved { background: rgba(107,184,87,.10); color: var(--green4); border: 1px solid rgba(107,184,87,.2); }
+
+    /* ===== BOTTOM GRID: properties + activity ===== */
+    .bottom-grid {
+      display: grid; grid-template-columns: 1fr 340px;
+      gap: 14px;
+    }
+
+    /* Property cards */
+    .properties-panel {
+      background: var(--bg2);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r3); overflow: hidden;
+    }
+    .prop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 16px; }
+    .prop-card {
+      background: var(--bg3);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r); overflow: hidden;
+      cursor: pointer; transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+    .prop-card:hover { border-color: rgba(107,184,87,.3); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0,0,0,.28); }
+    .prop-thumbnail {
+      height: 90px; position: relative; overflow: hidden;
+    }
+    .prop-thumbnail svg { width: 100%; height: 100%; }
+    .prop-status-badge {
+      position: absolute; top: 8px; right: 8px;
+      font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 999px;
+      letter-spacing: .06em; text-transform: uppercase;
+    }
+    .prop-status-badge.protected { background: rgba(82,148,63,.85); color: #fff; }
+    .prop-status-badge.alert { background: rgba(224,80,80,.85); color: #fff; }
+    .prop-status-badge.review { background: rgba(232,160,48,.85); color: var(--bg); }
+    .prop-body { padding: 12px; }
+    .prop-name { font-size: 13px; font-weight: 700; color: var(--cream); margin-bottom: 2px; }
+    .prop-loc { font-size: 11px; color: var(--cream3); margin-bottom: 10px; }
+
+    /* Health ring */
+    .health-row { display: flex; align-items: center; gap: 8px; }
+    .health-ring { position: relative; width: 40px; height: 40px; flex-shrink: 0; }
+    .health-ring svg { transform: rotate(-90deg); }
+    .health-ring .ring-track { fill: none; stroke: rgba(255,255,255,.08); stroke-width: 4; }
+    .health-ring .ring-fill  { fill: none; stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+    .health-ring .ring-val {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 800;
+    }
+    .health-info strong { display: block; font-size: 13px; font-weight: 700; color: var(--white); }
+    .health-info span { font-size: 10px; color: var(--cream3); }
+
+    .prop-actions { display: flex; gap: 6px; margin-top: 10px; }
+    .prop-btn {
+      flex: 1; padding: 6px; border-radius: 7px; border: none;
+      background: rgba(255,255,255,.05); color: var(--cream3); font-size: 11px; font-weight: 600;
+      cursor: pointer; transition: background .15s, color .15s;
+    }
+    .prop-btn:hover { background: rgba(255,255,255,.10); color: var(--cream); }
+    .prop-btn.primary { background: rgba(82,148,63,.15); color: var(--green4); }
+    .prop-btn.primary:hover { background: rgba(82,148,63,.25); }
+
+    /* Activity feed */
+    .activity-panel {
+      background: var(--bg2);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r3); overflow: hidden;
+    }
+    .activity-list { padding: 0 0 8px; }
+    .activity-item {
+      display: flex; gap: 12px; padding: 12px 20px;
+      border-bottom: 1px solid var(--stroke); position: relative;
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-line {
+      position: absolute; left: 32px; top: 44px; bottom: -1px; width: 1px;
+      background: var(--stroke);
+    }
+    .activity-item:last-child .activity-line { display: none; }
+    .act-icon {
+      width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 13px;
+      position: relative; z-index: 1;
+    }
+    .act-icon.green { background: rgba(82,148,63,.15); }
+    .act-icon.bronze { background: rgba(184,125,60,.12); }
+    .act-icon.red { background: var(--red-bg); }
+    .act-icon.amber { background: var(--amber-bg); }
+    .act-body { flex: 1; }
+    .act-title { font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 2px; line-height: 1.35; }
+    .act-meta { font-size: 11px; color: var(--cream3); }
+
+    /* ===== QUICK ACTIONS ===== */
+    .quick-bar {
+      display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .qa-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--bg2); border: 1px solid var(--stroke);
+      border-radius: 999px; padding: 9px 18px;
+      font-size: 13px; font-weight: 600; color: var(--cream2);
+      cursor: pointer; transition: all .18s;
+    }
+    .qa-btn:hover { background: var(--bg3); border-color: var(--stroke2); color: var(--white); }
+    .qa-btn.highlight { border-color: rgba(184,125,60,.3); color: var(--bronze3); background: rgba(184,125,60,.06); }
+    .qa-btn.highlight:hover { background: rgba(184,125,60,.12); }
+
+    /* ===== HEALTH GAUGE (big) ===== */
+    .gauge-wrap {
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; padding: 20px 0 8px;
+    }
+    .big-gauge { position: relative; width: 100px; height: 100px; }
+    .big-gauge svg { transform: rotate(-90deg); }
+    .big-gauge-val {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+    }
+    .big-gauge-val span { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 800; color: var(--white); }
+    .big-gauge-val small { font-size: 9px; color: var(--cream3); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.10); border-radius: 2px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .prop-grid { grid-template-columns: repeat(2,1fr); }
+      .bottom-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .kpi-strip { grid-template-columns: repeat(2,1fr); }
+      .mid-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .kpi-strip { grid-template-columns: 1fr 1fr; }
+      .prop-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <a class="sb-logo" href="index.html">
+      <div class="sb-mark">B</div>
+      <div class="sb-name">
+        <strong>BHUVI</strong>
+        <span>Land Verified</span>
+      </div>
+    </a>
+
+    <nav class="sb-nav">
+      <div class="sb-section-label">Main</div>
+      <div class="sb-item active"><span class="sb-icon">🏠</span> Dashboard</div>
+      <div class="sb-item"><span class="sb-icon">🗺️</span> My Properties <span class="sb-badge">3</span></div>
+      <div class="sb-item"><span class="sb-icon">🛰️</span> Watchman Feed</div>
+      <div class="sb-item"><span class="sb-icon">⚖️</span> Legal &amp; Firewall</div>
+      <div class="sb-item"><span class="sb-icon">🏪</span> Marketplace</div>
+
+      <div class="sb-section-label" style="margin-top:8px">Insights</div>
+      <div class="sb-item"><span class="sb-icon">📊</span> Reports</div>
+      <div class="sb-item"><span class="sb-icon">🔔</span> Alerts <span class="sb-badge">2</span></div>
+      <div class="sb-item"><span class="sb-icon">📂</span> Documents</div>
+
+      <div class="sb-section-label" style="margin-top:8px">Account</div>
+      <div class="sb-item"><span class="sb-icon">⚙️</span> Settings</div>
+      <div class="sb-item"><span class="sb-icon">💬</span> Support</div>
+    </nav>
+
+    <div class="sb-user">
+      <div class="sb-avatar">S</div>
+      <div class="sb-user-info">
+        <strong>Shyam G.</strong>
+        <span>NRI — USA</span>
+      </div>
+      <span class="sb-logout" onclick="window.location.href='index.html'" title="Log out">⏏</span>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-search">
+        <span>🔍</span>
+        <input type="text" placeholder="Search properties, cases, documents…" />
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-date" id="top-date"></span>
+        <div class="icon-btn" title="Notifications">🔔<span class="notif-dot"></span></div>
+        <div class="icon-btn" title="Add Property">＋</div>
+        <div class="icon-btn" title="Profile">👤</div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- Welcome -->
+      <div class="welcome-row">
+        <div class="welcome-text">
+          <h1>Good morning, Shyam 👋</h1>
+          <p id="welcome-sub">Here's your property intelligence summary for today.</p>
+        </div>
+        <div class="welcome-actions">
+          <button class="btn-add" onclick="alert('Add property flow coming soon!')">＋ Add Property</button>
+          <button class="btn-report">📥 Download Report</button>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-bar">
+        <div class="qa-btn highlight">🚨 Review Active Alert</div>
+        <div class="qa-btn">📜 Check Legal Status</div>
+        <div class="qa-btn">🛰️ Request Drone Survey</div>
+        <div class="qa-btn">📋 Generate Q1 Report</div>
+        <div class="qa-btn">📤 Share with Family</div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-strip">
+        <div class="kpi-card green">
+          <span class="kpi-icon">🏕️</span>
+          <span class="kpi-val">3</span>
+          <div class="kpi-label">Active Properties</div>
+          <span class="kpi-delta up">↑ +1 this month</span>
+        </div>
+        <div class="kpi-card amber">
+          <span class="kpi-icon">⚠️</span>
+          <span class="kpi-val">2</span>
+          <div class="kpi-label">Open Alerts</div>
+          <span class="kpi-delta warn">↑ Needs review</span>
+        </div>
+        <div class="kpi-card bronze">
+          <span class="kpi-icon">📊</span>
+          <span class="kpi-val">94%</span>
+          <div class="kpi-label">Portfolio Health</div>
+          <span class="kpi-delta up">↑ +2% this week</span>
+        </div>
+        <div class="kpi-card green">
+          <span class="kpi-icon">🔏</span>
+          <span class="kpi-val">147</span>
+          <div class="kpi-label">Days Protected</div>
+          <span class="kpi-delta up">⛓ 0 tampering events</span>
+        </div>
+      </div>
+
+      <!-- Mid: Map + Alerts -->
+      <div class="mid-grid">
+
+        <!-- Map -->
+        <div class="map-panel">
+          <div class="map-panel-header">
+            <div class="map-panel-title">
+              🗺️ Live Property Map
+              <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+            </div>
+            <div style="font-size:12px;color:var(--cream3)">South India · 3 properties</div>
+          </div>
+          <div class="map-area" id="map-area">
+            <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <!-- Background terrain -->
+              <defs>
+                <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#2D5225" stop-opacity=".6"/>
+                  <stop offset="100%" stop-color="#0E2010" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#1A3A1A" stop-opacity=".8"/>
+                  <stop offset="100%" stop-color="#0A1608" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+
+              <!-- Terrain blocks -->
+              <rect width="700" height="280" fill="#0E1C0A"/>
+              <polygon fill="#142814" points="0,60 150,40 200,100 100,140 0,130"/>
+              <polygon fill="#1A3010" points="150,40 320,20 360,90 250,120 200,100"/>
+              <polygon fill="#122210" points="320,20 500,10 540,80 420,100 360,90"/>
+              <polygon fill="#1A3010" points="500,10 700,0 700,90 580,100 540,80"/>
+              <polygon fill="#162810" points="0,130 100,140 140,220 50,250 0,240"/>
+              <polygon fill="#1E3614" points="100,140 200,100 260,180 180,220 140,220"/>
+              <polygon fill="#162810" points="200,100 250,120 320,180 260,220 260,180"/>
+              <polygon fill="#1E3614" points="250,120 360,90 400,170 330,210 320,180"/>
+              <polygon fill="#142810" points="360,90 420,100 480,160 420,200 400,170"/>
+              <polygon fill="#1A3010" points="420,100 540,80 580,160 500,190 480,160"/>
+              <polygon fill="#162810" points="540,80 700,90 700,180 620,200 580,160"/>
+              <polygon fill="#122010" points="50,250 140,220 180,280 80,280 0,280"/>
+              <polygon fill="#192E10" points="140,220 260,220 280,280 180,280"/>
+              <polygon fill="#1A3010" points="260,220 330,210 360,280 280,280"/>
+              <polygon fill="#162810" points="330,210 420,200 460,280 360,280"/>
+              <polygon fill="#1E3614" points="420,200 500,190 520,280 460,280"/>
+              <polygon fill="#142810" points="500,190 620,200 700,280 520,280"/>
+
+              <!-- Road network -->
+              <g stroke="#2A4820" fill="none" stroke-width="1" opacity=".5">
+                <line x1="0" y1="170" x2="700" y2="155"/>
+                <line x1="350" y1="0" x2="320" y2="280"/>
+                <line x1="0" y1="80" x2="700" y2="65"/>
+              </g>
+
+              <!-- Glow circles under pins -->
+              <circle cx="240" cy="110" r="30" fill="url(#glow1)" opacity=".6"/>
+              <circle cx="460" cy="140" r="25" fill="url(#glow2)" opacity=".8"/>
+              <circle cx="130" cy="180" r="20" fill="url(#glow1)" opacity=".5"/>
+            </svg>
+
+            <!-- Animated scan line -->
+            <div class="map-scan"></div>
+
+            <!-- Property Pins -->
+            <div class="map-pin green" style="left:33%;top:35%" title="Rajam Plot">
+              <div class="pin-tooltip">📍 Rajam, AP · 2.4 acres · Protected</div>
+            </div>
+            <div class="map-pin red" style="left:63%;top:46%" title="Nalgonda Plot">
+              <div class="pin-tooltip">📍 Nalgonda, Telangana · 5.1 acres · ALERT</div>
+            </div>
+            <div class="map-pin" style="left:18%;top:61%" title="Guntur Plot">
+              <div class="pin-tooltip">📍 Guntur, AP · 1.8 acres · Under Review</div>
+            </div>
+
+            <!-- Map labels -->
+            <div style="position:absolute;top:10px;left:14px;font-size:10px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:.08em">ANDHRA PRADESH</div>
+            <div style="position:absolute;top:10px;right:14px;font-size:10px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:.08em">TELANGANA</div>
+          </div>
+          <div class="map-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--green3)"></div>Protected</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Alert Active</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--bronze3)"></div>Under Review</div>
+          </div>
+        </div>
+
+        <!-- Alerts panel -->
+        <div class="alerts-panel">
+          <div class="panel-header">
+            <span class="panel-title">🚨 Active Alerts</span>
+            <span class="panel-count">2 open</span>
+          </div>
+          <div class="alert-list">
+            <div class="alert-item">
+              <div class="alert-row">
+                <div class="alert-sev high">🔴</div>
+                <div class="alert-body">
+                  <div class="alert-title-text">Pixel variance +7.2% detected</div>
+                  <div class="alert-meta">Nalgonda · NW boundary · 2 hrs ago</div>
+                </div>
+                <span class="alert-tag open">OPEN</span>
+              </div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-row">
+                <div class="alert-sev med">🟡</div>
+                <div class="alert-body">
+                  <div class="alert-title-text">EC renewal due in 14 days</div>
+                  <div class="alert-meta">Rajam Plot · Legal · Today</div>
+                </div>
+                <span class="alert-tag review">REVIEW</span>
+              </div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-row">
+                <div class="alert-sev low">🟢</div>
+                <div class="alert-body">
+                  <div class="alert-title-text">Drone survey completed</div>
+                  <div class="alert-meta">Rajam Plot · Watchman · Yesterday</div>
+                </div>
+                <span class="alert-tag resolved">DONE</span>
+              </div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-row">
+                <div class="alert-sev low">🟢</div>
+                <div class="alert-body">
+                  <div class="alert-title-text">Title verification passed</div>
+                  <div class="alert-meta">Guntur Plot · Legal · 3 days ago</div>
+                </div>
+                <span class="alert-tag resolved">DONE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom: Properties + Activity -->
+      <div class="bottom-grid">
+
+        <!-- Properties -->
+        <div class="properties-panel">
+          <div class="panel-header">
+            <span class="panel-title">🏕️ My Properties</span>
+            <button class="btn-add" style="font-size:12px;padding:7px 14px">＋ Add New</button>
+          </div>
+          <div class="prop-grid">
+
+            <!-- Property 1 — Protected -->
+            <div class="prop-card">
+              <div class="prop-thumbnail">
+                <svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="200" height="90" fill="#142810"/>
+                  <polygon fill="#2D5225" points="0,20 80,10 100,50 60,70 0,65"/>
+                  <polygon fill="#3D7035" points="80,10 160,5 180,45 100,50"/>
+                  <polygon fill="#1a3a1a" points="160,5 200,0 200,50 180,45"/>
+                  <polygon fill="#243d1c" points="0,65 60,70 70,90 0,90"/>
+                  <polygon fill="#2B5225" points="60,70 100,50 110,90 70,90"/>
+                  <polygon fill="#1e3519" points="100,50 180,45 200,90 110,90"/>
+                  <line x1="0" y1="55" x2="200" y2="48" stroke="#1A3010" stroke-width="1.5"/>
+                  <line x1="100" y1="0" x2="90" y2="90" stroke="#1A3010" stroke-width="1.5"/>
+                </svg>
+                <span class="prop-status-badge protected">● Protected</span>
+              </div>
+              <div class="prop-body">
+                <div class="prop-name">Rajam Agricultural Plot</div>
+                <div class="prop-loc">📍 Rajam, Andhra Pradesh · 2.4 Acres</div>
+                <div class="health-row">
+                  <div class="health-ring">
+                    <svg viewBox="0 0 40 40"><circle class="ring-track" cx="20" cy="20" r="16"/><circle class="ring-fill" cx="20" cy="20" r="16" stroke="#52943F" stroke-dasharray="100.5" stroke-dashoffset="8"/></svg>
+                    <div class="health-ring-val" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:800;color:var(--green4)">92</div>
+                  </div>
+                  <div class="health-info">
+                    <strong>92% Health</strong>
+                    <span>Last verified 2 days ago</span>
+                  </div>
+                </div>
+                <div class="prop-actions">
+                  <button class="prop-btn primary">📋 View</button>
+                  <button class="prop-btn">🛰️ Survey</button>
+                  <button class="prop-btn">📄 Report</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property 2 — Alert -->
+            <div class="prop-card" style="border-color:rgba(224,80,80,.22)">
+              <div class="prop-thumbnail">
+                <svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="200" height="90" fill="#1C1008"/>
+                  <polygon fill="#2D3A10" points="0,30 120,5 140,55 80,75 0,70"/>
+                  <polygon fill="#3A4A15" points="120,5 200,0 200,60 140,55"/>
+                  <polygon fill="#1a2808" points="0,70 80,75 90,90 0,90"/>
+                  <rect fill="rgba(224,80,80,.6)" x="130" y="18" width="40" height="28" rx="2"/>
+                  <line x1="0" y1="60" x2="200" y2="50" stroke="#1A2010" stroke-width="1.5"/>
+                </svg>
+                <span class="prop-status-badge alert">● Alert</span>
+              </div>
+              <div class="prop-body">
+                <div class="prop-name">Nalgonda Vacant Land</div>
+                <div class="prop-loc">📍 Nalgonda, Telangana · 5.1 Acres</div>
+                <div class="health-row">
+                  <div class="health-ring">
+                    <svg viewBox="0 0 40 40"><circle class="ring-track" cx="20" cy="20" r="16"/><circle class="ring-fill" cx="20" cy="20" r="16" stroke="#E05050" stroke-dasharray="100.5" stroke-dashoffset="35"/></svg>
+                    <div class="health-ring-val" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:800;color:var(--red)">65</div>
+                  </div>
+                  <div class="health-info">
+                    <strong style="color:var(--red)">65% Health</strong>
+                    <span>Alert open · Case #BHV-2847</span>
+                  </div>
+                </div>
+                <div class="prop-actions">
+                  <button class="prop-btn" style="background:var(--red-bg);color:var(--red)">🚨 Review</button>
+                  <button class="prop-btn">🛰️ Dispatch</button>
+                  <button class="prop-btn">📄 Report</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property 3 — Under Review -->
+            <div class="prop-card">
+              <div class="prop-thumbnail">
+                <svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="200" height="90" fill="#10180A"/>
+                  <polygon fill="#243A1A" points="0,40 100,20 130,60 70,80 0,75"/>
+                  <polygon fill="#1E3014" points="100,20 200,10 200,70 130,60"/>
+                  <polygon fill="#182A10" points="0,75 70,80 80,90 0,90"/>
+                  <polygon fill="#243A1A" points="70,80 130,60 140,90 80,90"/>
+                  <line x1="0" y1="65" x2="200" y2="55" stroke="#1A2C10" stroke-width="1.5"/>
+                </svg>
+                <span class="prop-status-badge review">● Review</span>
+              </div>
+              <div class="prop-body">
+                <div class="prop-name">Guntur Residential Plot</div>
+                <div class="prop-loc">📍 Guntur, Andhra Pradesh · 1.8 Acres</div>
+                <div class="health-row">
+                  <div class="health-ring">
+                    <svg viewBox="0 0 40 40"><circle class="ring-track" cx="20" cy="20" r="16"/><circle class="ring-fill" cx="20" cy="20" r="16" stroke="#E8A030" stroke-dasharray="100.5" stroke-dashoffset="18"/></svg>
+                    <div class="health-ring-val" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:800;color:var(--amber)">82</div>
+                  </div>
+                  <div class="health-info">
+                    <strong>82% Health</strong>
+                    <span>EC renewal pending</span>
+                  </div>
+                </div>
+                <div class="prop-actions">
+                  <button class="prop-btn primary">📋 View</button>
+                  <button class="prop-btn">⚖️ Legal</button>
+                  <button class="prop-btn">📄 Report</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="activity-panel">
+          <div class="panel-header">
+            <span class="panel-title">⚡ Activity Feed</span>
+            <span style="font-size:11px;color:var(--cream3)">Last 7 days</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-line"></div>
+              <div class="act-icon red">🚨</div>
+              <div class="act-body">
+                <div class="act-title">Pixel anomaly detected at NW boundary</div>
+                <div class="act-meta">Nalgonda · 2 hours ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-line"></div>
+              <div class="act-icon green">✅</div>
+              <div class="act-body">
+                <div class="act-title">Drone survey completed & hashed to blockchain</div>
+                <div class="act-meta">Rajam Plot · Yesterday</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-line"></div>
+              <div class="act-icon amber">📜</div>
+              <div class="act-body">
+                <div class="act-title">EC expiry alert generated — renew by Mar 28</div>
+                <div class="act-meta">Rajam Plot · 2 days ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-line"></div>
+              <div class="act-icon green">🔏</div>
+              <div class="act-body">
+                <div class="act-title">Title deed verified — SHA-256 anchored</div>
+                <div class="act-meta">Guntur Plot · 3 days ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-line"></div>
+              <div class="act-icon bronze">📊</div>
+              <div class="act-body">
+                <div class="act-title">Q1 2026 health report generated</div>
+                <div class="act-meta">All properties · 4 days ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="act-icon green">🌿</div>
+              <div class="act-body">
+                <div class="act-title">Vegetation boundary confirmed — no change</div>
+                <div class="act-meta">Rajam Plot · 7 days ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- bottom-grid -->
+    </div><!-- content -->
+  </div><!-- main -->
+
+  <script>
+    // Date
+    const now = new Date();
+    const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+    document.getElementById('top-date').textContent = now.toLocaleDateString('en-IN', opts);
+
+    // Welcome sub
+    const hour = now.getHours();
+    const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    document.querySelector('.welcome-text h1').textContent = `${greet}, Shyam 👋`;
+
+    // Animate health rings on load
+    document.querySelectorAll('.ring-fill').forEach(ring => {
+      const current = parseFloat(ring.getAttribute('stroke-dashoffset') || 0);
+      ring.setAttribute('stroke-dashoffset', 100.5);
+      setTimeout(() => { ring.style.transition = 'stroke-dashoffset 1.2s ease'; ring.setAttribute('stroke-dashoffset', current); }, 300);
+    });
+
+    // Quick action interactivity
+    document.querySelectorAll('.qa-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.style.background = 'rgba(107,184,87,.12)';
+        btn.style.color = 'var(--green4)';
+        setTimeout(() => { btn.style.background = ''; btn.style.color = ''; }, 1200);
+      });
+    });
+
+    // Sidebar item clicks
+    document.querySelectorAll('.sb-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+
+    // Property button interactions
+    document.querySelectorAll('.prop-btn, .qa-btn').forEach(btn => {
+      btn.addEventListener('click', e => e.stopPropagation());
+    });
+  </script>
+</body>
+</html>
