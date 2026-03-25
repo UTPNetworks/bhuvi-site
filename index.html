@@ -159,11 +159,11 @@
     .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
     .nav-logo-mark {
       width: 40px; height: 40px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--forest2), var(--bronze1));
+      background: transparent;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Cormorant Garamond', serif;
       font-size: 22px; font-weight: 700; color: var(--white);
-      box-shadow: var(--shadow-sm);
+      box-shadow: none;
     }
     .nav-logo-text strong {
       display: block; font-family: 'Space Grotesk', sans-serif;
@@ -703,7 +703,9 @@
     <div class="container">
       <div class="nav-inner">
         <a class="nav-logo" href="#">
-          <div class="nav-logo-mark">B</div>
+          <div class="nav-logo-mark">
+            <img src="bhuvi-logo.png" alt="Bhuvi Logo" style="width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 1px 4px rgba(22,43,16,.25));" onerror="this.style.display='none';this.parentElement.innerHTML='B';" />
+          </div>
           <div class="nav-logo-text">
             <strong>BHUVI</strong>
             <span>Land Verified</span>
@@ -716,8 +718,7 @@
           <li><a href="#about">About</a></li>
         </ul>
         <div class="nav-cta">
-          <a href="#login" class="btn btn-outline">Member Login</a>
-          <a href="#login" class="btn btn-bronze">Get Started</a>
+          <button onclick="openModal('modal-interest')" class="btn btn-bronze">Show Interest</button>
         </div>
       </div>
     </div>
@@ -766,6 +767,11 @@
     <div class="container">
       <div class="hero-inner">
         <div class="hero-left">
+          <!-- Bhuvi logo badge — blends into forest green hero -->
+          <div class="hero-logo-badge">
+            <img src="bhuvi-logo.png" alt="Bhuvi" onerror="this.style.display='none';" />
+            <span>Bhuvi · Land Verified</span>
+          </div>
           <div class="hero-eyebrow">
             <div class="hero-tag-live tag"><div class="dot" style="background:var(--bronze4)"></div>Live Monitoring Active</div>
             <div class="hero-tag-live hero-tag-chain tag"><div class="dot" style="background:var(--forest5)"></div>Blockchain Secured</div>
@@ -777,7 +783,7 @@
             32 million NRIs hold $250 billion in Indian real estate — watched over by aging parents and untrusted brokers. Bhuvi changes that. We verify, secure, and monetize your most important asset from wherever you are.
           </p>
           <div class="hero-cta">
-            <a href="#login" class="btn btn-bronze" style="font-size:15px;padding:14px 32px">Access Dashboard →</a>
+            <button onclick="openModal('modal-interest')" class="btn btn-bronze" style="font-size:15px;padding:14px 32px">Show Interest →</button>
             <a href="#platform" class="btn btn-forest-ghost" style="font-size:15px;padding:14px 32px">See How It Works</a>
           </div>
           <div class="trust-strip">
@@ -1209,9 +1215,9 @@
             </div>
           </div>
           <div style="margin-top:16px;text-align:center">
-            <a href="#login" class="btn btn-forest-ghost" style="width:100%;justify-content:center;font-size:13px">
+            <button onclick="openModal('modal-interest')" class="btn btn-forest-ghost" style="width:100%;justify-content:center;font-size:13px">
               Browse All Verified Listings →
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -1220,18 +1226,17 @@
 
   <div class="divider"></div>
 
-  <!-- ===== LOGIN CTA ===== -->
+  <!-- ===== SHOW INTEREST CTA ===== -->
   <section class="login-section" id="login">
     <div class="container">
       <div class="login-inner reveal">
-        <div class="tag" style="margin:0 auto 20px;display:inline-flex;color:var(--bronze4);border-color:rgba(212,151,78,.35);background:rgba(212,151,78,.08)">Member Access</div>
-        <h2 class="section-title">Your land is waiting.<br/>So is your dashboard.</h2>
-        <p>Log in to your Digital Twin to check today's surveillance report, review any anomaly alerts, update your legal checklist, or access your quarterly property health score.</p>
+        <div class="tag" style="margin:0 auto 20px;display:inline-flex;color:var(--bronze4);border-color:rgba(212,151,78,.35);background:rgba(212,151,78,.08)">Early Access</div>
+        <h2 class="section-title">Be first to protect<br/>your land with Bhuvi.</h2>
+        <p>Join thousands of NRIs taking control of their property. Be the first to know when we launch in your region — satellite monitoring, blockchain protection, and AI-powered alerts, all in one dashboard.</p>
         <div class="login-actions">
-          <a href="#" class="btn btn-login-big btn">Log In to Dashboard →</a>
-          <a href="#" class="btn btn-bronze" style="font-size:16px;padding:16px 36px">Request Access</a>
+          <button onclick="openModal('modal-interest')" class="btn btn-login-big btn">Show Interest →</button>
         </div>
-        <p class="login-note">New to Bhuvi? <a href="#">Join the waitlist</a> and we'll onboard you within 48 hours.</p>
+        <p class="login-note">We respect your privacy. No spam, ever. Our team will reach you personally.</p>
       </div>
     </div>
   </section>
@@ -1242,7 +1247,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <div style="display:flex;align-items:center;gap:12px">
-            <div class="footer-logo-mark">B</div>
+            <img src="bhuvi-logo.png" alt="Bhuvi" class="footer-logo-img" onerror="this.outerHTML='<div class=\'footer-logo-mark\'>B</div>';" />
             <div class="footer-logo-text">
               <strong>BHUVI</strong>
               <span>Land Verified</span>
@@ -1513,7 +1518,154 @@
       .modal-header { padding: 22px 20px 18px; }
       .form-row { grid-template-columns: 1fr; }
     }
+
+    /* ===== INTEREST MODAL ===== */
+    #modal-interest .modal-card { max-width: 480px; }
+    #modal-interest .modal-header {
+      background: linear-gradient(135deg, var(--forest) 0%, var(--forest1) 60%, var(--bronze0) 100%);
+      position: relative; overflow: hidden;
+    }
+    #modal-interest .modal-header::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 15% 50%, rgba(82,148,63,.18), transparent 50%),
+                  radial-gradient(circle at 85% 30%, rgba(184,125,60,.15), transparent 45%);
+    }
+    #modal-interest .modal-header h2 { color: var(--white); position: relative; z-index: 1; }
+    #modal-interest .modal-header p  { color: rgba(255,255,255,.65); position: relative; z-index: 1; }
+    #modal-interest .modal-close { color: rgba(255,255,255,.6); }
+    #modal-interest .modal-close:hover { color: #fff; background: rgba(255,255,255,.12); }
+    #modal-interest .modal-logo { position: relative; z-index: 1; }
+    #modal-interest .modal-logo span { color: rgba(255,255,255,.9); }
+    #modal-interest .modal-logo-mark {
+      background: linear-gradient(135deg, var(--bronze2), var(--bronze3));
+    }
+
+    /* ===== THANKYOU MODAL ===== */
+    #modal-thankyou .modal-card { max-width: 400px; text-align: center; }
+    #modal-thankyou .modal-header {
+      background: linear-gradient(135deg, var(--forest) 0%, var(--forest2) 100%);
+    }
+    #modal-thankyou .modal-header h2 { color: var(--white); }
+    #modal-thankyou .modal-header p  { color: rgba(255,255,255,.65); }
+    #modal-thankyou .modal-close { color: rgba(255,255,255,.6); }
+    #modal-thankyou .modal-close:hover { color: #fff; background: rgba(255,255,255,.12); }
+    #modal-thankyou .modal-logo { justify-content: center; }
+    #modal-thankyou .modal-logo span { color: rgba(255,255,255,.9); }
+    .thankyou-icon {
+      width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 20px;
+      background: linear-gradient(135deg, var(--forest3), var(--forest4));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; box-shadow: 0 8px 32px rgba(61,112,53,.3);
+      border: 3px solid rgba(107,184,87,.3);
+    }
+    .thankyou-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 700; color: var(--forest); margin-bottom: 12px;
+    }
+    .thankyou-message {
+      font-size: 15px; line-height: 1.7; color: var(--tx3); margin-bottom: 28px; max-width: 32ch; margin-left: auto; margin-right: auto;
+    }
+
+    /* ===== BHUVI LOGO ===== */
+    .bhuvi-logo-img {
+      width: 36px; height: 36px; object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(22,43,16,.18));
+      transition: transform .3s ease;
+    }
+    .bhuvi-logo-img:hover { transform: scale(1.06); }
+    .nav-logo-img-wrap {
+      width: 42px; height: 42px; border-radius: 10px;
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+      background: transparent;
+    }
+    .nav-logo-img-wrap img { width: 42px; height: 42px; object-fit: contain; }
+    .footer-logo-img {
+      width: 52px; height: 52px; object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(22,43,16,.3));
+    }
+    /* Hero logo badge */
+    .hero-logo-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(8px); border-radius: 12px;
+      padding: 8px 16px 8px 8px; margin-bottom: 20px;
+    }
+    .hero-logo-badge img {
+      width: 32px; height: 32px; object-fit: contain;
+      filter: drop-shadow(0 0 6px rgba(212,151,78,.4));
+    }
+    .hero-logo-badge span {
+      font-size: 12px; font-weight: 700; letter-spacing: .16em;
+      text-transform: uppercase; color: rgba(255,255,255,.8);
+    }
   </style>
+
+  <!-- ===== SHOW INTEREST MODAL ===== -->
+  <div id="modal-interest" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Show Interest">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-logo">
+          <div class="modal-logo-mark">
+            <img src="bhuvi-logo.png" alt="Bhuvi" style="width:22px;height:22px;object-fit:contain;" onerror="this.outerHTML='B';" />
+          </div>
+          <span>BHUVI</span>
+        </div>
+        <h2>Show Your Interest</h2>
+        <p>Leave your details and our team will reach you personally</p>
+        <button class="modal-close" onclick="closeModal('modal-interest')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="int-fname" placeholder="Arjun" autocomplete="given-name" />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="int-lname" placeholder="Sharma" autocomplete="family-name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="int-email" placeholder="arjun@example.com" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="int-phone" placeholder="+1 555 000 0000" autocomplete="tel" />
+        </div>
+        <div id="int-error" class="field-error" style="display:none;margin-bottom:12px"></div>
+        <button class="modal-submit" id="int-btn" onclick="submitInterest()">Submit →</button>
+        <p style="font-size:12px;color:var(--tx4);text-align:center;margin-top:14px;line-height:1.5">
+          We respect your privacy. No spam, ever.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== THANK YOU MODAL ===== -->
+  <div id="modal-thankyou" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Thank You">
+    <div class="modal-card">
+      <div class="modal-header" style="position:relative;">
+        <div class="modal-logo" style="justify-content:center;">
+          <div class="modal-logo-mark">
+            <img src="bhuvi-logo.png" alt="Bhuvi" style="width:22px;height:22px;object-fit:contain;" onerror="this.outerHTML='B';" />
+          </div>
+          <span style="color:rgba(255,255,255,.9);">BHUVI</span>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-thankyou')">✕</button>
+      </div>
+      <div class="modal-body" style="text-align:center;padding-top:32px;">
+        <div class="thankyou-icon">🌿</div>
+        <div class="thankyou-title">Thank You!</div>
+        <p class="thankyou-message">
+          Thank you for your interest. Our team will reach you with more details.
+        </p>
+        <button class="modal-submit" onclick="closeModal('modal-thankyou')" style="max-width:200px;margin:0 auto;">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== LOGIN MODAL ===== -->
   <div id="modal-login" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Member Login">
@@ -1912,6 +2064,61 @@
       document.getElementById('otp0').focus();
     }
 
+    // ===== SHOW INTEREST FORM =====
+    async function submitInterest() {
+      const fname = document.getElementById('int-fname').value.trim();
+      const lname = document.getElementById('int-lname').value.trim();
+      const email = document.getElementById('int-email').value.trim();
+      const phone = document.getElementById('int-phone').value.trim();
+      const err   = document.getElementById('int-error');
+      const btn   = document.getElementById('int-btn');
+
+      // Validate
+      if (!fname || !lname || !email || !phone) {
+        err.style.display = 'block';
+        err.textContent = 'Please fill in all fields.';
+        return;
+      }
+      if (!email.includes('@') || !email.includes('.')) {
+        err.style.display = 'block';
+        err.textContent = 'Please enter a valid email address.';
+        return;
+      }
+      err.style.display = 'none';
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      // Close interest modal → show thank-you popup
+      closeModal('modal-interest');
+      setTimeout(() => openModal('modal-thankyou'), 350);
+
+      // Background email via Web3Forms (free, no backend needed)
+      // Get your free access key at https://web3forms.com — takes 30 seconds
+      try {
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', // Replace with key from web3forms.com
+            subject:    'New Interest Submission — Bhuvi Platform',
+            to:         'shyam.gurram@bhuvi.io',
+            from_name:  fname + ' ' + lname,
+            email:      email,
+            message:    `New interest submission from the Bhuvi website:\n\nName:  ${fname} ${lname}\nEmail: ${email}\nPhone: ${phone}\n\nSubmitted at: ${new Date().toLocaleString()}`
+          })
+        });
+      } catch (e) {
+        // Silent fail — thank-you is already shown
+      }
+
+      // Reset form
+      btn.textContent = 'Submit →';
+      btn.disabled = false;
+      ['int-fname','int-lname','int-email','int-phone'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+    }
+
     // Wire up nav buttons to open correct modals
     document.addEventListener('click', e => {
       const el = e.target.closest('a, button');
@@ -1919,9 +2126,9 @@
       const text = el.textContent.trim();
       const href = el.getAttribute('href') || '';
 
-      if (href === '#login' || text === 'Member Login' || text === 'Log In to Dashboard →' || text.includes('Log In')) {
+      if (href === '#login' || text.includes('Log In')) {
         e.preventDefault(); openModal('modal-login');
-      } else if (text === 'Get Started' || text === 'Request Access' || href === '#signup') {
+      } else if (text === 'Request Access' || href === '#signup') {
         e.preventDefault(); openModal('modal-register');
       }
     });
