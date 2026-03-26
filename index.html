@@ -1267,28 +1267,28 @@
         <div class="footer-col">
           <h5>Company</h5>
           <ul>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Press</a></li>
-            <li><a href="#">Blog</a></li>
+            <li><a href="#" data-modal="modal-wip">About Us</a></li>
+            <li><a href="#" data-modal="modal-wip">Careers</a></li>
+            <li><a href="#" data-modal="modal-wip">Press</a></li>
+            <li><a href="#" data-modal="modal-wip">Blog</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h5>Legal</h5>
           <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Patent Notice</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#" data-modal="modal-wip">Privacy Policy</a></li>
+            <li><a href="#" data-modal="modal-wip">Terms of Service</a></li>
+            <li><a href="#" data-modal="modal-wip">Patent Notice</a></li>
+            <li><a href="#" data-modal="modal-wip">Contact</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <p>© <span id="year"></span> Bhuvi Technologies Pvt. Ltd. All rights reserved.</p>
         <div class="footer-legal">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Cookies</a>
+          <a href="#" data-modal="modal-wip">Privacy</a>
+          <a href="#" data-modal="modal-wip">Terms</a>
+          <a href="#" data-modal="modal-wip">Cookies</a>
         </div>
       </div>
     </div>
@@ -1845,6 +1845,32 @@
         </div>
 
       </div><!-- modal-body -->
+    </div>
+  </div>
+
+  <!-- ===== WIP / COMING SOON MODAL ===== -->
+  <div id="modal-wip" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Coming Soon">
+    <div class="modal-card" style="max-width:420px;text-align:center">
+      <div class="modal-header" style="text-align:center;padding:32px 32px 28px">
+        <div class="modal-logo" style="justify-content:center">
+          <div class="modal-logo-mark">B</div>
+          <span>BHUVI</span>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-wip')" aria-label="Close">✕</button>
+        <h2 style="font-size:24px;margin-bottom:8px">Coming Soon</h2>
+        <p>We're working on something great for you.</p>
+      </div>
+      <div class="modal-body" style="padding:28px 32px 32px">
+        <div style="font-size:40px;margin-bottom:16px">🚧</div>
+        <p style="font-size:15px;line-height:1.65;color:var(--tx2);margin-bottom:24px">
+          Apologies for the inconvenience — this section is still in progress.<br><br>
+          Please register with us and we will send that information directly to you.
+        </p>
+        <button class="modal-submit" onclick="closeModal('modal-wip'); openModal('modal-interest');" style="width:100%;max-width:280px;margin:0 auto;display:block">
+          Register Now →
+        </button>
+        <p style="margin-top:16px;font-size:13px;color:var(--tx3)">We respect your privacy. No spam, ever.</p>
+      </div>
     </div>
   </div>
 
