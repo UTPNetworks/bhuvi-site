@@ -5,9 +5,11 @@
     { "src": "*.jpg",  "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/app",   "dest": "/app.html" },
-    { "src": "/app/",  "dest": "/app.html" },
-    { "src": "/(.*)",  "dest": "/$1" }
+    { "src": "/app",       "dest": "/app.html" },
+    { "src": "/app/",      "dest": "/app.html" },
+    { "src": "/careers",   "dest": "/careers.html" },
+    { "src": "/careers/",  "dest": "/careers.html" },
+    { "src": "/(.*)",      "dest": "/$1" }
   ],
   "headers": [
     {
